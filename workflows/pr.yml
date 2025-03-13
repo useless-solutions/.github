@@ -1,0 +1,39 @@
+name: 🚔 CI
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_call:
+
+env:
+  GO_VERSION: "1.24"
+
+jobs:
+  auto_labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/labeler@v5
+
+  detect_language:
+    runs-on: ubuntu-latest
+    outputs:
+      is_go: ${{ steps.detect.outputs.is_go }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect repo language
+        id: detect
+        run: echo "::set-output name=is_go::$( [ -f go.mod ] && echo true || echo false )"
+
+  go_lint:
+    needs: detect_language
+    if: ${{ needs.detect_language.outputs.is_go == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: lint
+        uses: golangci/golangci-lint-action@v6.5.0
