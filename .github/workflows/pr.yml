@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Detect repo language
         id: detect
-        run: echo "::set-output name=is_go::$( [ -f go.mod ] && echo true || echo false )"
+        run: echo "is_go=$( [ -f go.mod ] && echo true || echo false )" >> "$GITHUB_OUTPUT"
 
   go_lint:
     needs: detect_language
