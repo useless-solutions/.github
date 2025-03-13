@@ -5,6 +5,12 @@ concurrency:
 
 on:
   workflow_call:
+    inputs:
+      GO_VERSION:
+        description: "Go version to use"
+        required: false
+        default: "1.24"
+        type: string
 
 env:
   GO_VERSION: "1.24"
