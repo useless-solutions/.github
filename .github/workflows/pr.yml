@@ -20,9 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          repos: ${{ github.event.pull_request.base.repo.full_name }}
       - uses: actions/labeler@v5
         with:
-          configuration-path: useless-solutions/.github/.github/labeler.yml
+          configuration-path: .github/labeler.yml
 
   detect_language:
     runs-on: ubuntu-latest
