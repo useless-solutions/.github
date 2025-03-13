@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/labeler@v5
         with:
-          config-path: .github/labeler.yml
+          config-path: useless-solutions/.github/.github/labeler.yml
 
   detect_language:
     runs-on: ubuntu-latest
